@@ -19,5 +19,5 @@ connection.connect((err) => {
   }
 });
 
-// exportamos para utilizarla en los servicios
+// exportamos para utilizarla la conexion 
 export default connection;
