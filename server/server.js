@@ -4,7 +4,8 @@ import csv from "csv-parser";
 // llamamos a la conexion y le agregamos el .js al final
 import connection from "../bd/bd.js";
 cargarUsuarios
-cargarLibros();
+cargarLibros
+cargarEstados()
 // creamos una funcion
 function cargarUsuarios() {
   // vamos a leer el archivo csv linea por linea
@@ -70,10 +71,42 @@ function cargarLibros() {
     });
 }
 
+function cargarEstados() {
+  fs.createReadStream("../csv/estados.csv")
+    // convertimos  cada linea de csv  en objetos js   y separador para que identifique
+    .pipe(csv())
+    //leemos los datos fila por fila
+    .on("data", (row) => {
+      // extraemos los datos que estan en el csv
+      const { estado } =row;
+       console.log(row)
+ // creamos la queries  de inertar los datos en la tabla
+ 
+      const sql = "INSERT INTO estados (nombre) VALUES ( ? )";
+      //  llamamos a la conexion para que inserte los datos en las filas
+      connection.query(sql, [estado],
+         (err) => {
+        // controlamos los errores  que n de la base de datos
+        if (err) console.error("error al insertar datos", err.message);
+      });
+    })
+    .on("end", () => {
+      console.log(" Importación completada.");
+
+      // le damos tiempo para la insercion y finalizamos la conexion
+
+      setTimeout(() => {
+        connection.end();
+        console.log("*** conexion cerrada ***");
+      }, 700);
+    });
+}
+
+
 function cargarPrestamos() {
   fs.createReadStream("../csv/prestamos.csv")
     // convertimos  cada linea de csv  en objetos js   y separador para que identifique
-    .pipe(csv({separator:";"}))
+    .pipe(csv())
     //leemos los datos fila por fila
     .on("data", (row) => {
       // extraemos los datos que estan en el csv
@@ -81,7 +114,7 @@ function cargarPrestamos() {
        console.log(row)
  // creamos la queries  de inertar los datos en la tabla
  
-      const sql = "INSERT INTO libros (isbn,titulo,año_de_publicacion,autor) VALUES ( ?,?,?,? )";
+      const sql = "INSERT INTO prestamos (isbn,titulo,año_de_publicacion,autor) VALUES ( ?,?,?,? )";
       //  llamamos a la conexion para que inserte los datos en las filas
       connection.query(sql, [isbn, titulo, año_de_publicacion, autor],
          (err) => {
