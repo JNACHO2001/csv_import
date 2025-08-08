@@ -3,9 +3,10 @@ import fs from "fs";
 import csv from "csv-parser";
 // llamamos a la conexion y le agregamos el .js al final
 import connection from "../bd/bd.js";
-cargarUsuarios
-cargarLibros
-cargarEstados()
+cargarUsuarios;
+cargarLibros;
+cargarEstados;
+cargarPrestamos();
 // creamos una funcion
 function cargarUsuarios() {
   // vamos a leer el archivo csv linea por linea
@@ -16,12 +17,14 @@ function cargarUsuarios() {
     .on("data", (fila) => {
       // extraemos los datos que estan en el csv
       const { identificacion, nombre, correo, telefono } = fila;
-     
+
       const sql =
         // creamos la queries  de insertar los datos en la tabla
         "INSERT INTO usuarios (identificacion,nombre,correo,telefono) VALUES (?, ?, ?, ?)";
       //  llamamos a la conexion para que inserte los datos en las filas
-      connection.query(sql,[identificacion, nombre, correo, telefono],
+      connection.query(
+        sql,
+        [identificacion, nombre, correo, telefono],
         (err) => {
           // controlamos los errores  que n de la base de datos
           if (err) console.error("erroe al insertar datos", err.message);
@@ -43,21 +46,25 @@ function cargarUsuarios() {
 function cargarLibros() {
   fs.createReadStream("../csv/libros.csv")
     // convertimos  cada linea de csv  en objetos js   y separador para que identifique
-    .pipe(csv({separator:";"}))
+    .pipe(csv({ separator: ";" }))
     //leemos los datos fila por fila
     .on("data", (row) => {
       // extraemos los datos que estan en el csv
-      const { isbn, titulo, año_de_publicacion, autor } =row;
-       console.log(row)
- // creamos la queries  de inertar los datos en la tabla
- 
-      const sql = "INSERT INTO libros (isbn,titulo,año_de_publicacion,autor) VALUES ( ?,?,?,? )";
+      const { isbn, titulo, año_de_publicacion, autor } = row;
+      console.log(row);
+      // creamos la queries  de inertar los datos en la tabla
+
+      const sql =
+        "INSERT INTO libros (isbn,titulo,año_de_publicacion,autor) VALUES ( ?,?,?,? )";
       //  llamamos a la conexion para que inserte los datos en las filas
-      connection.query(sql, [isbn, titulo, año_de_publicacion, autor],
-         (err) => {
-        // controlamos los errores  que n de la base de datos
-        if (err) console.error("error al insertar datos", err.message);
-      });
+      connection.query(
+        sql,
+        [isbn, titulo, año_de_publicacion, autor],
+        (err) => {
+          // controlamos los errores  que n de la base de datos
+          if (err) console.error("error al insertar datos", err.message);
+        }
+      );
     })
     .on("end", () => {
       console.log(" Importación completada.");
@@ -78,14 +85,13 @@ function cargarEstados() {
     //leemos los datos fila por fila
     .on("data", (row) => {
       // extraemos los datos que estan en el csv
-      const { estado } =row;
-       console.log(row)
- // creamos la queries  de inertar los datos en la tabla
- 
+      const { estado } = row;
+      console.log(row);
+      // creamos la queries  de inertar los datos en la tabla
+
       const sql = "INSERT INTO estados (nombre) VALUES ( ? )";
       //  llamamos a la conexion para que inserte los datos en las filas
-      connection.query(sql, [estado],
-         (err) => {
+      connection.query(sql, [estado], (err) => {
         // controlamos los errores  que n de la base de datos
         if (err) console.error("error al insertar datos", err.message);
       });
@@ -102,7 +108,6 @@ function cargarEstados() {
     });
 }
 
-
 function cargarPrestamos() {
   fs.createReadStream("../csv/prestamos.csv")
     // convertimos  cada linea de csv  en objetos js   y separador para que identifique
@@ -110,17 +115,22 @@ function cargarPrestamos() {
     //leemos los datos fila por fila
     .on("data", (row) => {
       // extraemos los datos que estan en el csv
-      const { isbn, titulo, año_de_publicacion, autor } =row;
-       console.log(row)
- // creamos la queries  de inertar los datos en la tabla
- 
-      const sql = "INSERT INTO prestamos (isbn,titulo,año_de_publicacion,autor) VALUES ( ?,?,?,? )";
+      const { id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion } =
+        row;
+      console.log(row);
+      // creamos la queries  de inertar los datos en la tabla
+
+      const sql =
+        "INSERT INTO prestamos (id_estado,id_usuario,isbn,fecha_prestamo,fecha_devolucion) VALUES ( ?,?,?,?,? )";
       //  llamamos a la conexion para que inserte los datos en las filas
-      connection.query(sql, [isbn, titulo, año_de_publicacion, autor],
-         (err) => {
-        // controlamos los errores  que n de la base de datos
-        if (err) console.error("error al insertar datos", err.message);
-      });
+      connection.query(
+        sql,
+        [id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion],
+        (err) => {
+          // controlamos los errores  que n de la base de datos
+          if (err) console.error("error al insertar datos", err.message);
+        }
+      );
     })
     .on("end", () => {
       console.log(" Importación completada.");
