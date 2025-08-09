@@ -5,7 +5,6 @@ const app = express();
 
 app.use(express.json());
 
-/*  GET PARA TODOS LOS PRESTAMOS  */
 
 app.get("/", (req, res) => {
   try {
@@ -97,7 +96,7 @@ app.post("/prestamos", async (req, res) => {
 app.delete("/prestamos/:id_prestamo", async (req, res) => {
   try {
     const id = req.params.id_prestamo;
-    const sql = "DELETE FROM  prestamos WHERE id_prestamo = ?";
+    const sql = " DELETE FROM  prestamos WHERE id_prestamo = ?";
 
     connection.query(sql, [id], (err, resultado) => {
       if (err) {
@@ -112,6 +111,14 @@ app.delete("/prestamos/:id_prestamo", async (req, res) => {
     res.status(500).json({ error: "Error inesperado en el servidor" });
   }
 });
+
+app.put("/prestamos:id_prestamos", async (req,res) => {
+  
+
+
+
+  
+})
 
 app.listen(3000, () => {
   console.log("servidor arriba  en http://localhost:3000");
