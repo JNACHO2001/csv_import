@@ -35,8 +35,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/prestamos/:id_prestamo", async (req, res) => {
-    try { 
-        const id = req.params.id_prestamo 
+  try {
+    const id = req.params.id_prestamo;
 
     const query = `
     SELECT usuarios.nombre AS usuario,
@@ -49,33 +49,50 @@ app.get("/prestamos/:id_prestamo", async (req, res) => {
       ON libros.isbn = prestamos.isbn   WHERE id_prestamo = ? ;
   `;
 
-    connection.query(query,[id], (error, results) => {
+    connection.query(query, [id], (error, results) => {
       if (error) {
         console.error("Error en la consulta:", error);
         return res.status(500).send("Error al obtener datos");
       }
-       if (results.length ===0) {
-        return res.status(404).send("no lo encontre")
-        
-       }
+      if (results.length === 0) {
+        return res.status(404).send("no lo encontre");
+      }
 
-      res.json(results[0])
+      res.json(results[0]);
     });
   } catch (error) {
     res.json({
       message: "existe un error " + error,
     });
   }
-
-
-
 });
 
+app.post("/prestamos", async (req, res) => {
+  try {
+    const { id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion } =
+      req.body;
+    const sql =
+      "INSERT INTO prestamos (id_estado,id_usuario,isbn,fecha_prestamo,fecha_devolucion) VALUES (?, ?, ?, ?, ?)";
 
-app.post("/prestamos", async (req,res)  =>{
-    
-} )
+    connection.query(
+      sql,
+      [id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion],
+      (err, resultado) => {
+        if (err) {
+          console.log("error al insertar los datos" + err);
 
+          return res
+            .status(500)
+            .json({ err: "Error inesperado en el servidor" });
+        }
+        res.json({ message: "Registro insertado correctamente", resultado });
+      }
+    );
+  } catch (error) {
+    console.log("Tengo un error:", error);
+    res.status(500).json({ error: "Error inesperado en el servidor" });
+  }
+});
 
 app.listen(3000, () => {
   console.log("servidor arriba  en http://localhost:3000");
