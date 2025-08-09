@@ -94,6 +94,25 @@ app.post("/prestamos", async (req, res) => {
   }
 });
 
+app.delete("/prestamos/:id_prestamo", async (req, res) => {
+  try {
+    const id = req.params.id_prestamo;
+    const sql = "DELETE FROM  prestamos WHERE id_prestamo = ?";
+
+    connection.query(sql, [id], (err, resultado) => {
+      if (err) {
+        console
+          .log("no se elimino", err)
+          .json({ err: "Error inesperado en el servidor" });
+      }
+      res.json({ message: "Registro eliminado correctamente", resultado });
+    });
+  } catch (error) {
+    console.log("Tengo un error:", error);
+    res.status(500).json({ error: "Error inesperado en el servidor" });
+  }
+});
+
 app.listen(3000, () => {
   console.log("servidor arriba  en http://localhost:3000");
 });
