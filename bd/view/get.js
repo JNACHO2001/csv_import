@@ -3,13 +3,12 @@ const url = "http://localhost:3000/";
 async function getPrestamos() {
   try {
     const body = document.querySelector(".event-body");
-    const btn = document.querySelector(".btn-edit");
     const response = await axios.get(url);
     const datas = await response.data;
     datas.forEach((dato) => {
       return (body.innerHTML += renderEventRow(dato));
     });
-    body.addEventListener("click", escuchoEdit);
+    body.addEventListener("click", capturoEdit);
   } catch (error) {
     console.error(error);
   }
@@ -32,20 +31,16 @@ function renderEventRow(dato) {
 
 getPrestamos();
 
-async function escuchoEdit(e) {
+async function capturoEdit(e) {
   const target = e.target;
 
   if (target.classList.contains("btn-edit")) {
     const id = target.dataset.id;
     console.log(id);
   }
- 
-   if (target.classList.contains("btn-delete")) {
+
+  if (target.classList.contains("btn-delete")) {
     const id = target.dataset.id;
     console.log(id);
   }
-  
-
-
-
 }
