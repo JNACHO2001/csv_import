@@ -1,4 +1,3 @@
-
 const url = "http://localhost:3000/";
 
 async function getPrestamos() {
@@ -24,7 +23,6 @@ async function eliminarPrestamo(id_prestamo) {
   }
 }
 
-
 function renderEventRow(dato) {
   return `
     <div class="event-row selected">
@@ -39,10 +37,6 @@ function renderEventRow(dato) {
     </div>
   `;
 }
-
-getPrestamos();
-
-
 async function capturoEdit(e) {
   const target = e.target;
 
@@ -53,6 +47,21 @@ async function capturoEdit(e) {
 
   if (target.classList.contains("btn-delete")) {
     const id_prestamo = target.dataset.id;
-   eliminarPrestamo(id_prestamo) 
+    eliminarPrestamo(id_prestamo);
   }
 }
+
+async function agregarPrestamo() {
+  const add=document.querySelector(".add-event-btn")
+  if (add) {
+    addEventListener("click", ()=> {
+      
+        
+    })
+    
+  }
+  
+}
+
+getPrestamos();
+agregarPrestamo()
