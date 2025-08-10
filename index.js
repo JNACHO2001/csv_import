@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
     const query = `
     SELECT  prestamos.id_prestamo,usuarios.nombre AS usuario,
            libros.titulo AS libro,
-           prestamos.fecha_devolucion
+           DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion
     FROM prestamos 
     JOIN usuarios
       ON prestamos.id_usuario = usuarios.id_usuario
