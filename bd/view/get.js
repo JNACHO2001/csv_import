@@ -1,3 +1,4 @@
+
 const url = "http://localhost:3000/";
 
 async function getPrestamos() {
@@ -13,6 +14,16 @@ async function getPrestamos() {
     console.error(error);
   }
 }
+
+async function eliminarPrestamo(id_prestamo) {
+  try {
+    const response = await axios.delete(`${url}prestamos/${id_prestamo}`);
+    console.log("Se eliminó el préstamo:", response.data);
+  } catch (error) {
+    console.error("Hubo un error al eliminar el préstamo:", error);
+  }
+}
+
 
 function renderEventRow(dato) {
   return `
@@ -31,6 +42,7 @@ function renderEventRow(dato) {
 
 getPrestamos();
 
+
 async function capturoEdit(e) {
   const target = e.target;
 
@@ -40,7 +52,7 @@ async function capturoEdit(e) {
   }
 
   if (target.classList.contains("btn-delete")) {
-    const id = target.dataset.id;
-    console.log(id);
+    const id_prestamo = target.dataset.id;
+   eliminarPrestamo(id_prestamo) 
   }
 }
