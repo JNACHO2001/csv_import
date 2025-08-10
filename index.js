@@ -114,18 +114,19 @@ app.delete("/prestamos/:id_prestamo", async (req, res) => {
 app.put("/prestamos/:id_prestamo", async (req, res) => {
   try {
     const id = req.params.id_prestamo;
-       console.log("datos",req.body)
+    console.log("datos", req.body);
     const { id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion } =
       req.body;
-      console.log("datos",req.body)
-   
+    console.log("datos", req.body);
+
     const sql = `UPDATE prestamos SET 
     id_estado = ?,id_usuario = ?,isbn = ?,fecha_prestamo = ?,fecha_devolucion = ?    
     WHERE id_prestamo = ? `;
 
     connection.query(
-      sql,[id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion,id],
-      
+      sql,
+      [id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion, id],
+
       async (err, resultado) => {
         if (err) {
           console.log("hay un error" + err);
@@ -140,19 +141,35 @@ app.put("/prestamos/:id_prestamo", async (req, res) => {
   }
 });
 
-
-app.patch("prestamos/:id_prestamos", async (req,res)=> {
-
+app.patch("/prestamos/:id_prestamo", async (req, res) => {
   try {
-    
+    const { fecha_prestamo, fecha_devolucion } = req.body;
+
+    const id = req.params.id_prestamo;
+    const sql = `
+    UPDATE prestamos SET 
+    fecha_prestamo = ?,fecha_devolucion = ?    
+    WHERE id_prestamo = ? 
+    `;
+
+    connection.query(
+      sql,
+      [fecha_prestamo, fecha_devolucion, id],
+      async (err, resultado) => {
+        if (err) {
+          console.log("no se pudo actualizar", err);
+          return res
+            .status(500)
+            .json({ message: "no se pudo actulizar las fechas " });
+        }
+        res.json({ message: "se actualizaron los datos ", resultado });
+      }
+    );
   } catch (error) {
-    
+    console.log("Tengo un error:", error);
+    res.status(500).json({ error: "Error inesperado en el servidor" });
   }
-
-
-
-  
-})
+});
 
 app.listen(3000, () => {
   console.log("servidor arriba  en http://localhost:3000");
