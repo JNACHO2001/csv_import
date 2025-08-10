@@ -13,11 +13,13 @@ app.get("/", (req, res) => {
     SELECT  prestamos.id_prestamo,usuarios.nombre AS usuario,
            libros.titulo AS libro,
            prestamos.fecha_devolucion
-    FROM prestamos
+    FROM prestamos 
     JOIN usuarios
       ON prestamos.id_usuario = usuarios.id_usuario
     JOIN libros
-      ON libros.isbn = prestamos.isbn;
+      ON libros.isbn = prestamos.isbn 
+      order by usuarios.nombre asc; 
+ ;
   `;
 
     connection.query(query, (error, results) => {

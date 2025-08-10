@@ -76,7 +76,8 @@ on
 prestamos.id_usuario=usuarios.id_usuario
 join libros
 on 
-libros.isbn=prestamos.isbn;
+libros.isbn=prestamos.isbn
+order by usuarios.nombre asc;
 
 select *from estados;
 truncate estados;
