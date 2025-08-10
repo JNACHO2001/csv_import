@@ -24,7 +24,7 @@ function renderEventRow(dato) {
       <div class="event-capacity">${dato.fecha_devolucion}</div>
       <div class="event-actions">
         <button class="btn-edit action-btn" data-id="${dato.id_prestamo}">editar</button>
-        <button class="btn-delete action-btn" data-id="${event.id}">eliminar</button>
+        <button class="btn-delete action-btn" data-id="${dato.id_prestamo}">eliminar</button>
       </div>
     </div>
   `;
@@ -39,4 +39,13 @@ async function escuchoEdit(e) {
     const id = target.dataset.id;
     console.log(id);
   }
+ 
+   if (target.classList.contains("btn-delete")) {
+    const id = target.dataset.id;
+    console.log(id);
+  }
+  
+
+
+
 }
