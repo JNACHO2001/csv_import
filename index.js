@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
       ON prestamos.id_usuario = usuarios.id_usuario
     JOIN libros
       ON libros.isbn = prestamos.isbn 
-      order by prestamos.id_prestamo asc; 
+      order by prestamos.id_prestamo DESC; 
  ;
   `;
 
