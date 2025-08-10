@@ -52,16 +52,43 @@ async function capturoEdit(e) {
 }
 
 async function agregarPrestamo() {
-  const add=document.querySelector(".add-event-btn")
-  if (add) {
-    addEventListener("click", ()=> {
-      
+  const submit = document.getElementById("formulario");
+
+  if (submit) {
+    submit.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const id_estado = document.getElementById("id_estado").value;
+      const id_usuario = document.getElementById("id_usuario").value;
+      const isbn = document.getElementById("isbn").value;
+      const fecha_prestamo = document.getElementById("fecha_prestamo").value;
+      const fecha_devolucion =
+        document.getElementById("fecha_devolucion").value;
+
+      try {
+        const response = await fetch(`${url}prestamos`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            id_estado,
+            id_usuario,
+            isbn,
+            fecha_prestamo,
+            fecha_devolucion,
+          }),
+        });
         
-    })
-    
+        if (response.ok) {
+          alert("prestamo registrado");
+          return
+        }
+        alert("no se registro nada ");
+      } catch (error) {
+        console.error("hay un error ", error);
+      }
+    });
   }
-  
 }
 
 getPrestamos();
-agregarPrestamo()
+agregarPrestamo();
