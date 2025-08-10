@@ -11,7 +11,7 @@
   background-color: #fafafa;
 }
 .add-event-btn {
-  background: #7c3aed;
+  background: #ecbe08;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -28,7 +28,7 @@
 }
 
 .table-header {
-  background: #893df2;
+  background: #f2583d;
   padding: 15px 10px;
  display:  flex;
   text-align: center;
@@ -38,4 +38,16 @@
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+}
+.event-row {
+  padding: 15px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid #c51717;
+  transition: all 0.2s ease;
+}
+.event-row.selected {
+  border: 2px solid #2fd529;
+  background: #f0f9ff;
 }

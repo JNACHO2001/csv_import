@@ -1,16 +1,16 @@
 import express from "express";
 import connection from "./bd/bd.js";
-import cors from "cors"
+import cors from "cors";
 
 const app = express();
-app.use(cors())
+app.use(cors());
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
   try {
     const query = `
-    SELECT usuarios.nombre AS usuario,
+    SELECT  prestamos.id_prestamo,usuarios.nombre AS usuario,
            libros.titulo AS libro,
            prestamos.fecha_devolucion
     FROM prestamos

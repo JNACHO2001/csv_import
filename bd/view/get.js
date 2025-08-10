@@ -3,13 +3,13 @@ const url = "http://localhost:3000/";
 async function getPrestamos() {
   try {
     const body = document.querySelector(".event-body");
-
+    const btn = document.querySelector(".btn-edit");
     const response = await axios.get(url);
     const datas = await response.data;
-    console.table(datas);
     datas.forEach((dato) => {
-      body.innerHTML += renderEventRow(dato);
+      return (body.innerHTML += renderEventRow(dato));
     });
+    body.addEventListener("click", escuchoEdit);
   } catch (error) {
     console.error(error);
   }
@@ -18,12 +18,12 @@ async function getPrestamos() {
 function renderEventRow(dato) {
   return `
     <div class="event-row selected">
-      <h3>event</h3>
+     
       <div class="event-name">${dato.usuario}</div>
       <div class="event-description">${dato.libro}</div>
       <div class="event-capacity">${dato.fecha_devolucion}</div>
       <div class="event-actions">
-        <button class="btn-edit action-btn" data-id="${event.id}">editar</button>
+        <button class="btn-edit action-btn" data-id="${dato.id_prestamo}">editar</button>
         <button class="btn-delete action-btn" data-id="${event.id}">eliminar</button>
       </div>
     </div>
@@ -31,3 +31,12 @@ function renderEventRow(dato) {
 }
 
 getPrestamos();
+
+async function escuchoEdit(e) {
+  const target = e.target;
+
+  if (target.classList.contains("btn-edit")) {
+    const id = target.dataset.id;
+    console.log(id);
+  }
+}
