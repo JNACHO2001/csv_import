@@ -140,6 +140,20 @@ app.put("/prestamos/:id_prestamo", async (req, res) => {
   }
 });
 
+
+app.patch("prestamos/:id_prestamos", async (req,res)=> {
+
+  try {
+    
+  } catch (error) {
+    
+  }
+
+
+
+  
+})
+
 app.listen(3000, () => {
   console.log("servidor arriba  en http://localhost:3000");
 });
