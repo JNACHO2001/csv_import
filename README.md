@@ -1,52 +1,85 @@
-#  Conversión de CSV a MySQL y consumo de API HTTP
+#  Conversión de CSV a MySQL y Consumo de API
 
-Este proyecto realiza el flujo completo desde la conversión de archivos CSV a objetos, su inserción en MySQL y el consumo de los endpoints mediante métodos HTTP.
-
----
-
-##  Herramientas utilizadas
-
-- **MySQL2** → Conexión y consultas a MySQL  
-- **Axios** → Consumo de endpoints HTTP  
-- **CSV-Parser** → Lectura y conversión de CSV a objetos  
-- **CORS** → Permitir solicitudes entre dominios  
-- **Path** → Manejo de rutas en Node.js  
-- **Express** → Servidor backend
+Este proyecto convierte datos almacenados en archivos CSV a objetos JavaScript, los inserta en una base de datos MySQL y posteriormente expone esos datos a través de endpoints REST para ser consumidos desde un frontend.
 
 ---
 
-##  Pasos del desarrollo
-
-1. **Instalación de librerías**  
-   Descargar todas las dependencias necesarias para el proyecto.
-
-2. **Creación de la conexión**  
-   Configurar la conexión a la base de datos MySQL.
-
-3. **Preparación de los archivos CSV**  
-   - Normalizar los datos desde Excel u otra herramienta.  
-   - Guardar los archivos como `.csv`.  
-   - Crear el diagrama de modelo entidad-relación.  
-   - Crear la base de datos y las tablas con sus respectivos campos.  
-   - Organizar las relaciones y claves foráneas.  
-
-4. **Conversión de CSV a objetos**  
-   Convertir los datos de los archivos CSV en objetos JavaScript.
-
-5. **Poblado de la base de datos**  
-   Insertar los objetos en las tablas correspondientes de MySQL.
-
-6. **Creación de endpoints**  
-   Implementar el servidor en Express con rutas para las operaciones necesarias.
-
-7. **Pruebas con Postman**  
-   Verificar el correcto funcionamiento de los métodos HTTP: GET, POST, PUT y DELETE.
-
-8. **Consumo desde el Frontend**  
-   Utilizar Axios para consumir la API y renderizar los datos en la interfaz.
+##  **Tecnologías y Librerías Utilizadas**
+- **MySQL2** – Conexión y consultas a la base de datos MySQL  
+- **Axios** – Consumo de endpoints desde el frontend  
+- **csv-parser** – Conversión de archivos CSV a objetos JavaScript  
+- **CORS** – Permitir comunicación entre frontend y backend  
+- **Path** – Manejo de rutas de archivos  
+- **Express** – Creación de servidor y manejo de rutas HTTP  
 
 ---
 
-##  Flujo general del proyecto
+##  **Pasos de Implementación**
 
-**CSV** → **Objetos JavaScript** → **Base de datos MySQL** → **API REST (Express)** → **Frontend con Axios**
+### **1️ Instalación de Dependencias**
+```bash
+npm install mysql2 axios csv-parser cors path express
+```
+
+---
+
+### **2️ Conexión a la Base de Datos**
+- Configurar credenciales de conexión a MySQL.
+- Crear base de datos y tablas necesarias.
+
+---
+
+### **3️ Preparación de Archivos CSV**
+- Normalizar datos desde Excel u otra herramienta.
+- Guardar como archivos `.csv`.
+- Crear **diagrama entidad-relación**.
+- Organizar tablas con **FOREIGN KEY** correctamente.
+
+---
+
+### **4️ Carga de Datos**
+- Parsear CSV a objetos usando `csv-parser`.
+- Insertar datos en la base de datos MySQL.
+
+---
+
+### **5️ Creación de Endpoints Backend**
+- Montar servidor con **Express**.
+- Implementar rutas para métodos HTTP:
+  - **GET** – Obtener registros
+  - **POST** – Agregar registros
+  - **PUT** – Actualizar registros
+  - **DELETE** – Eliminar registros
+- Probar con **Postman**.
+
+---
+
+### **6️ Consumo desde el Frontend**
+- Utilizar **Axios** para llamar a los endpoints.
+- Renderizar datos en la interfaz.
+- Implementar formularios para CRUD completo.
+
+---
+
+##  **Flujo del Proyecto**
+1.  CSV  a  Objetos JS  a  MySQL  
+2.  API REST (Express)  
+3.  Frontend consume datos con Axios  
+
+---
+
+##  Ejemplo Visual (Diagrama Simplificado)
+```
+[ CSV ] → [ Node.js + csv-parser ] → [ MySQL ]
+                                   ↓
+                            [ API REST ]
+                                   ↓
+                            [ Frontend ]
+```
+
+---
+
+##  Estado del Proyecto
+🔹 CRUD funcional  
+🔹 Base de datos poblada desde CSV  
+🔹 Comunicación cliente-servidor establecida  
