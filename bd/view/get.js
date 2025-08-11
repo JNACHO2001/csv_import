@@ -63,7 +63,7 @@ async function agregarPrestamo() {
       e.preventDefault();
       const btnSave = document.querySelector(".add-event-btn");
 
-      const id_estado = document.getElementById("id_estado").value;
+      const nombre_estado = document.getElementById("id_estado").value;
       const id_usuario = document.getElementById("id_usuario").value;
       const isbn = document.getElementById("isbn").value;
       const fecha_prestamo = document.getElementById("fecha_prestamo").value;
@@ -72,7 +72,7 @@ async function agregarPrestamo() {
       try {
         if (editando) {
           await axios.put(`${url}prestamos/${editando}`, {
-            id_estado,
+            nombre_estado,
             id_usuario,
             isbn,
             fecha_prestamo,
@@ -89,7 +89,7 @@ async function agregarPrestamo() {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({
-              id_estado,
+              nombre_estado,
               id_usuario,
               isbn,
               fecha_prestamo,
@@ -119,7 +119,8 @@ async function editarPrestamo(id_prestamo) {
   btnSave.textContent = "actualizar";
   const respónse = await fetch(`${url}prestamos/${id_prestamo}`);
   const data = await respónse.json();
-  document.getElementById("id_estado").value = data.id_estado;
+  console.log(data)
+  document.getElementById("id_estado").value = data.nombre_estado;
   document.getElementById("id_usuario").value = data.id_usuario;
   document.getElementById("isbn").value = data.isbn;
   document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
