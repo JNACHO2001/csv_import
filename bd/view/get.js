@@ -101,14 +101,19 @@ async function agregarPrestamo() {
 }
 
 async function editarPrestamo(id_prestamo) {
+   const btnSave = document.querySelector(".add-event-btn");
+    btnSave.style.backgroundColor = "green";
+    btnSave.textContent="actualizar"
   const respónse = await fetch(`${url}prestamos/${id_prestamo}`)
   const data=await  respónse.json()
-  console.log(data)
   document.getElementById("id_estado").value = data.id_estado;
-    document.getElementById("id_usuario").value = data.usuario;
+    document.getElementById("id_usuario").value = data.id_usuario;
     document.getElementById("isbn").value = data.isbn;
     document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
     document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
+
+
+    
   
 
   

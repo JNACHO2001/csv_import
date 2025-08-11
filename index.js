@@ -41,7 +41,7 @@ app.get("/prestamos/:id_prestamo", async (req, res) => {
     const id = req.params.id_prestamo;
 
     const query = `
-    select  libros.isbn, estados.nombre as estado,prestamos.id_usuario,DATE_FORMAT(prestamos.fecha_prestamo, '%Y-%m-%d') AS fecha_prestamo,DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion
+    select  libros.isbn, estados.id_estado,prestamos.id_usuario,DATE_FORMAT(prestamos.fecha_prestamo, '%Y-%m-%d') AS fecha_prestamo,DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion
  from estados
  join prestamos 
  on
