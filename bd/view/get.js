@@ -9,7 +9,7 @@ async function getPrestamos() {
     const response = await axios.get(url);
     const datas = response.data;
     datas.forEach((dato) => {
-      return (body.innerHTML += renderEventRow(dato));
+       (body.innerHTML += renderEventRow(dato));
     });
     body.addEventListener("click", capturoEdit);
   } catch (error) {
