@@ -71,27 +71,30 @@ WHERE id_prestamo = ?;
 
 app.post("/prestamos", async (req, res) => {
   try {
-    const { nombre_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion } =
-      req.body;
-       
-      const sqlEstado=`select id_estado from  estados 
-      where nombre = ? `
+    const {
+      nombre_estado,
+      id_usuario,
+      isbn,
+      fecha_prestamo,
+      fecha_devolucion,
+    } = req.body;
 
-      connection.query(sqlEstado,[nombre_estado],(err,resultado) => {
-       if (err) {
-        return res.status(500).json({error: err.message})
-       }
-       if (resultado.length===0) {
-        return res.status(404).json({ error: "El estado no existe" })
-        
-       }
+    const sqlEstado = `select id_estado from  estados 
+      where nombre = ? `;
 
-       console.log(resultado)
+    connection.query(sqlEstado, [nombre_estado], (err, resultEstado) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (resultEstado.length === 0) {
+        return res.status(404).json({ error: "El estado no existe" });
+      }
 
-       const id_estado = resultado[0].id_estado
+      console.log(resultEstado);
 
-       const sql =
-       `
+      const id_estado = resultEstado[0].id_estado;
+
+      const sql = `
       INSERT INTO prestamos ( id_estado,id_usuario, isbn, fecha_prestamo,fecha_devolucion)
 
       VALUES (?, ?, ?, ? ,?)
@@ -100,21 +103,18 @@ app.post("/prestamos", async (req, res) => {
       
     `;
 
-    connection.query(sql,[id_estado,id_usuario,isbn,fecha_prestamo,fecha_devolucion],(error2,resultado2)=>{
-      if (error2) return res.status(500).json({ error: error2.message });
-      res.json({ message: "Préstamo agregado correctamente", id_prestamo: resultado2.insertId });
-
-    } )
-       
-
-
-
-      } )
-
-
-
-
-
+      connection.query(
+        sql,
+        [id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion],
+        (error, resultado) => {
+          if (error) return res.status(500).json({ error: error.message });
+          res.json({
+            message: "Préstamo agregado correctamente",
+            id_prestamo: resultado.insertId,
+          });
+        }
+      );
+    });
   } catch (error) {
     console.log("Tengo un error:", error);
     res.status(500).json({ error: "Error inesperado en el servidor" });
@@ -143,17 +143,23 @@ app.delete("/prestamos/:id_prestamo", async (req, res) => {
 app.put("/prestamos/:id_prestamo", async (req, res) => {
   try {
     const id = req.params.id_prestamo;
-    const { nombre_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion } = req.body;
+    const {
+      nombre_estado,
+      id_usuario,
+      isbn,
+      fecha_prestamo,
+      fecha_devolucion,
+    } = req.body;
 
-    // Buscar id_estado por nombre
-    const getEstadoSql = "SELECT id_estado FROM estados WHERE nombre = ?";
-    connection.query(getEstadoSql, [nombre_estado], (err, estadoRes) => {
-      if (err) return res.status(500).json({ message: "Error al buscar estado" });
-      if (estadoRes.length === 0) return res.status(404).json({ message: "Estado no encontrado" });
+    const sqlEstado = "SELECT id_estado FROM estados WHERE nombre = ?";
+    connection.query(sqlEstado, [nombre_estado], (err, resultEstado) => {
+      if (err)
+        return res.status(500).json({ message: "Error al buscar estado" });
+      if (resultEstado.length === 0)
+        return res.status(404).json({ message: "Estado no encontrado" });
 
-      const id_estado = estadoRes[0].id_estado;
+      const id_estado = resultEstado[0].id_estado;
 
-      // Actualizar el préstamo con el id_estado encontrado
       const updateSql = `
         UPDATE prestamos SET 
         id_estado = ?, id_usuario = ?, isbn = ?, fecha_prestamo = ?, fecha_devolucion = ?    
@@ -164,9 +170,14 @@ app.put("/prestamos/:id_prestamo", async (req, res) => {
         [id_estado, id_usuario, isbn, fecha_prestamo, fecha_devolucion, id],
         (err, resultado) => {
           if (err) {
-            return res.status(500).json({ message: "Error al actualizar préstamo" });
+            return res
+              .status(500)
+              .json({ message: "Error al actualizar préstamo" });
           }
-          res.json({ message: "Préstamo actualizado correctamente", resultado });
+          res.json({
+            message: "Préstamo actualizado correctamente",
+            resultado,
+          });
         }
       );
     });
@@ -174,7 +185,6 @@ app.put("/prestamos/:id_prestamo", async (req, res) => {
     res.status(500).json({ error: "Error inesperado en el servidor" });
   }
 });
-
 
 app.patch("/prestamos/:id_prestamo", async (req, res) => {
   try {
