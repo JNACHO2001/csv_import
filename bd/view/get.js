@@ -1,5 +1,7 @@
 const url = "http://localhost:3000/";
 
+let editando =null;
+
 async function getPrestamos() {
   try {
     const body = document.querySelector(".event-body");
@@ -43,8 +45,10 @@ async function capturoEdit(e) {
   const target = e.target;
 
   if (target.classList.contains("btn-edit")) {
-    const id = target.dataset.id;
-    console.log(id);
+    const id_prestamo = target.dataset.id;
+   
+    editarPrestamo(id_prestamo)
+ 
   }
 
   if (target.classList.contains("btn-delete")) {
@@ -96,11 +100,22 @@ async function agregarPrestamo() {
   }
 }
 
-async function editarPrestamo() {
+async function editarPrestamo(id_prestamo) {
+  const respónse = await fetch(`${url}prestamos/${id_prestamo}`)
+  const data=await  respónse.json()
+  console.log(data)
+  document.getElementById("id_estado").value = data.id_estado;
+    document.getElementById("id_usuario").value = data.usuario;
+    document.getElementById("isbn").value = data.isbn;
+    document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
+    document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
+  
+
   
 }
 
-editarPrestamo()
+
 
 getPrestamos();
 agregarPrestamo();
+

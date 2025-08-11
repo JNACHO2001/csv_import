@@ -41,14 +41,14 @@ app.get("/prestamos/:id_prestamo", async (req, res) => {
     const id = req.params.id_prestamo;
 
     const query = `
-    SELECT usuarios.nombre AS usuario,
-           libros.titulo AS libro,
-           prestamos.fecha_devolucion
-    FROM prestamos
-    JOIN usuarios
-      ON prestamos.id_usuario = usuarios.id_usuario
-    JOIN libros
-      ON libros.isbn = prestamos.isbn   WHERE id_prestamo = ? ;
+    select  libros.isbn, estados.nombre as estado,prestamos.id_usuario,DATE_FORMAT(prestamos.fecha_prestamo, '%Y-%m-%d') AS fecha_prestamo,DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion
+ from estados
+ join prestamos 
+ on
+ estados.id_estado=prestamos.id_estado
+ join libros
+ on 
+ libros.isbn=prestamos.isbn  where id_prestamo = ?;
   `;
 
     connection.query(query, [id], (error, results) => {
