@@ -67,8 +67,7 @@ async function agregarPrestamo() {
       const id_usuario = document.getElementById("id_usuario").value;
       const isbn = document.getElementById("isbn").value;
       const fecha_prestamo = document.getElementById("fecha_prestamo").value;
-      const fecha_devolucion =
-        document.getElementById("fecha_devolucion").value;
+      const fecha_devolucion = document.getElementById("fecha_devolucion").value;
 
       try {
         if (editando) {
@@ -101,7 +100,7 @@ async function agregarPrestamo() {
           if (response.ok) {
             alert("prestamo registrado");
             submit.reset();
-            getPrestamos();
+            await getPrestamos();
 
             return;
           }
@@ -125,7 +124,6 @@ async function editarPrestamo(id_prestamo) {
   document.getElementById("isbn").value = data.isbn;
   document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
   document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
-
   editando = id_prestamo;
 }
 
