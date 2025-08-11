@@ -1,8 +1,6 @@
-
-
 const url = "http://localhost:3000/";
 
-let editando= null;
+let editando = null;
 
 async function getPrestamos() {
   try {
@@ -54,7 +52,6 @@ async function capturoEdit(e) {
   if (target.classList.contains("btn-delete")) {
     const id_prestamo = target.dataset.id;
     eliminarPrestamo(id_prestamo);
-  
   }
 }
 
@@ -64,6 +61,7 @@ async function agregarPrestamo() {
   if (submit) {
     submit.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const btnSave = document.querySelector(".add-event-btn");
 
       const id_estado = document.getElementById("id_estado").value;
       const id_usuario = document.getElementById("id_usuario").value;
@@ -82,34 +80,33 @@ async function agregarPrestamo() {
             fecha_devolucion,
           });
           alert("se edito corecctamente ");
-           submit.reset();
-          await getPrestamos()
-          editando=null
+          btnSave.style.backgroundColor = "#ecbe08";
+          btnSave.textContent = "agregar prestamo";
+          submit.reset();
+          await getPrestamos();
+          editando = null;
         } else {
           const response = await fetch(`${url}prestamos`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({
-            id_estado,
-            id_usuario,
-            isbn,
-            fecha_prestamo,
-            fecha_devolucion,
-          }),
-        });
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+              id_estado,
+              id_usuario,
+              isbn,
+              fecha_prestamo,
+              fecha_devolucion,
+            }),
+          });
 
-        if (response.ok) {
-          alert("prestamo registrado");
-          submit.reset();
-          getPrestamos();
+          if (response.ok) {
+            alert("prestamo registrado");
+            submit.reset();
+            getPrestamos();
 
-          return;
+            return;
+          }
+          alert("no se registro nada ");
         }
-        alert("no se registro nada ");
-          
-        }
-
-        
       } catch (error) {
         console.error("hay un error ", error);
       }
@@ -119,7 +116,7 @@ async function agregarPrestamo() {
 
 async function editarPrestamo(id_prestamo) {
   const btnSave = document.querySelector(".add-event-btn");
-  btnSave.style.backgroundColor = "green";
+  btnSave.style.backgroundColor = "blue";
   btnSave.textContent = "actualizar";
   const respónse = await fetch(`${url}prestamos/${id_prestamo}`);
   const data = await respónse.json();
@@ -129,7 +126,7 @@ async function editarPrestamo(id_prestamo) {
   document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
   document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
 
- editando =id_prestamo
+  editando = id_prestamo;
 }
 
 getPrestamos();
