@@ -82,6 +82,15 @@ order by usuarios.nombre asc;
 select *from estados;
 truncate estados;
 
+select  libros.isbn, estados.nombre,prestamos.id_usuario,prestamos.fecha_prestamo,prestamos.fecha_devolucion
+ from estados
+ join prestamos 
+ on
+ estados.id_estado=prestamos.id_estado
+ join libros
+ on 
+ libros.isbn=prestamos.isbn ;
+
 
 
 

@@ -1,6 +1,8 @@
+
+
 const url = "http://localhost:3000/";
 
-let editando =null;
+let editando= null;
 
 async function getPrestamos() {
   try {
@@ -46,15 +48,13 @@ async function capturoEdit(e) {
 
   if (target.classList.contains("btn-edit")) {
     const id_prestamo = target.dataset.id;
-   
-    editarPrestamo(id_prestamo)
- 
+    editarPrestamo(id_prestamo);
   }
 
   if (target.classList.contains("btn-delete")) {
     const id_prestamo = target.dataset.id;
     eliminarPrestamo(id_prestamo);
-    getPrestamos();
+  
   }
 }
 
@@ -73,7 +73,20 @@ async function agregarPrestamo() {
         document.getElementById("fecha_devolucion").value;
 
       try {
-        const response = await fetch(`${url}prestamos`, {
+        if (editando) {
+          await axios.put(`${url}prestamos/${editando}`, {
+            id_estado,
+            id_usuario,
+            isbn,
+            fecha_prestamo,
+            fecha_devolucion,
+          });
+          alert("se edito corecctamente ");
+           submit.reset();
+          await getPrestamos()
+          editando=null
+        } else {
+          const response = await fetch(`${url}prestamos`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
@@ -93,6 +106,10 @@ async function agregarPrestamo() {
           return;
         }
         alert("no se registro nada ");
+          
+        }
+
+        
       } catch (error) {
         console.error("hay un error ", error);
       }
@@ -101,26 +118,19 @@ async function agregarPrestamo() {
 }
 
 async function editarPrestamo(id_prestamo) {
-   const btnSave = document.querySelector(".add-event-btn");
-    btnSave.style.backgroundColor = "green";
-    btnSave.textContent="actualizar"
-  const respónse = await fetch(`${url}prestamos/${id_prestamo}`)
-  const data=await  respónse.json()
+  const btnSave = document.querySelector(".add-event-btn");
+  btnSave.style.backgroundColor = "green";
+  btnSave.textContent = "actualizar";
+  const respónse = await fetch(`${url}prestamos/${id_prestamo}`);
+  const data = await respónse.json();
   document.getElementById("id_estado").value = data.id_estado;
-    document.getElementById("id_usuario").value = data.id_usuario;
-    document.getElementById("isbn").value = data.isbn;
-    document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
-    document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
+  document.getElementById("id_usuario").value = data.id_usuario;
+  document.getElementById("isbn").value = data.isbn;
+  document.getElementById("fecha_prestamo").value = data.fecha_prestamo;
+  document.getElementById("fecha_devolucion").value = data.fecha_devolucion;
 
-
-    
-  
-
-  
+ editando =id_prestamo
 }
-
-
 
 getPrestamos();
 agregarPrestamo();
-
