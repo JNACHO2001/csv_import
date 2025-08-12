@@ -34,6 +34,7 @@ function renderEventRow(dato) {
       <div class="event-name">${dato.usuario}</div>
       <div class="event-description">${dato.libro}</div>
       <div class="event-capacity">${dato.fecha_devolucion}</div>
+       <div class="event-name">${dato.nombre}</div>
       <div class="event-actions">
         <button class="btn-edit action-btn" data-id="${dato.id_prestamo}">editar</button>
         <button class="btn-delete action-btn" data-id="${dato.id_prestamo}">eliminar</button>

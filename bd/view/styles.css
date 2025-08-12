@@ -32,7 +32,7 @@
   padding: 15px 10px;
  display:  flex;
   text-align: center;
-  gap: 150px;
+  gap: 100px;
   font-size: 12px;
   font-weight: 500;
   color: #ffffff;
@@ -42,7 +42,7 @@
 .event-row {
   padding: 15px 20px;
   display: flex;
-  gap: 20px;
+  gap: 100px;
   align-items: center;
   border-bottom: 1px solid #c51717;
   transition: all 0.2s ease;

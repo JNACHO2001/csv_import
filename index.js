@@ -9,18 +9,21 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   try {
-    const query = `
-    SELECT  prestamos.id_prestamo,usuarios.nombre AS usuario,
+    const query = `SELECT  prestamos.id_prestamo,usuarios.nombre AS usuario,
            libros.titulo AS libro,
-           DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion
+		 DATE_FORMAT(prestamos.fecha_devolucion, '%Y-%m-%d') AS fecha_devolucion, estados.nombre
     FROM prestamos 
     JOIN usuarios
       ON prestamos.id_usuario = usuarios.id_usuario
     JOIN libros
       ON libros.isbn = prestamos.isbn 
+      join estados
+      on
+      estados.id_estado=prestamos.id_estado
       order by prestamos.id_prestamo DESC; 
- ;
+   
   `;
+  
 
     connection.query(query, (error, results) => {
       if (error) {
